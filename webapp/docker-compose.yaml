@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    ports:
+      - "5432:5432"
+  webapp:
+    build: .
+    container_name: node-webapp
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    env_file: .env
+    command: npm start
+    restart: always
